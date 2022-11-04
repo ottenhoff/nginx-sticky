@@ -27,8 +27,15 @@ version_nginx=1.23.2
 # Set OpenPGP keys used to sign downloads
 opgp_pcre=45F68D54BBE23FB3039B46E59766E084FB0F43D8
 opgp_zlib=5ED46A6721D365587791E2AA783FCD8E58BCAFBA
-opgp_openssl=7953AC1FBC3DC8B3B292393ED5E9E43F7DF9EE8C
 opgp_nginx=13C82A63B603576156E30A4EA0EA981B66B0D967
+opgp_openssl1=8657ABB260F056B1E5190839D9C4D26D0E604491
+opgp_openssl2=B7C1C14360F353A36862E4D5231C84CDDCC69C45
+opgp_openssl3=C1F33DD8CE1D4CC613AF14DA9195C48241FBF7DD
+opgp_openssl4=95A9908DDFA16830BE9FB9003D30A3A9FF1360DC
+opgp_openssl5=7953AC1FBC3DC8B3B292393ED5E9E43F7DF9EE8C
+opgp_openssl6=A21FAB74B0088AA361152586B8EF1A6BA9DA2D5C
+opgp_openssl7=E5E52560DD91C556DDBDA5D02064C53641C25E5D
+
 
 # Set where OpenSSL and NGINX will be built
 bpath=$(pwd)/build
@@ -66,7 +73,8 @@ curl -L "${source_nginx}nginx-${version_nginx}.tar.gz.asc" -o "${bpath}/nginx.ta
 cd "$bpath"
 GNUPGHOME="$(mktemp -d)"
 export GNUPGHOME
-gpg --keyserver keyserver.ubuntu.com --recv-keys "$opgp_pcre" "$opgp_zlib" "$opgp_openssl" "$opgp_nginx"
+gpg --keyserver keyserver.ubuntu.com --recv-keys "$opgp_pcre" "$opgp_zlib" "$opgp_nginx"
+gpg --keyserver keyserver.ubuntu.com --recv-keys "$opgp_openssl1" "$opgp_openssl2" "$opgp_openssl3" "$opgp_openssl4" "$opgp_openssl5" "$opgp_openssl6" "$opgp_openssl7"
 gpg --batch --verify pcre.tar.gz.sig pcre.tar.gz
 gpg --batch --verify zlib.tar.gz.asc zlib.tar.gz
 gpg --batch --verify openssl.tar.gz.asc openssl.tar.gz
