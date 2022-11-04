@@ -20,9 +20,9 @@ source_nginx=https://nginx.org/download/
 
 # Look up latest versions of each package
 version_pcre=pcre-8.45
-version_zlib=1.2.13
-version_openssl=3.0.7
-version_nginx=1.23.2
+version_zlib=zlib-1.2.13
+version_openssl=openssl-3.0.7
+version_nginx=nginx-1.23.2
 
 # Set OpenPGP keys used to sign downloads
 opgp_pcre=45F68D54BBE23FB3039B46E59766E084FB0F43D8
@@ -59,15 +59,15 @@ apt-get -y install \
 
 # Download the source files
 curl -L "${source_pcre}${version_pcre}.tar.gz" -o "${bpath}/pcre.tar.gz"
-curl -L "${source_zlib}zlib-${version_zlib}.tar.gz" -o "${bpath}/zlib.tar.gz"
-curl -L "${source_openssl}openssl-${version_openssl}.tar.gz" -o "${bpath}/openssl.tar.gz"
-curl -L "${source_nginx}nginx-${version_nginx}.tar.gz" -o "${bpath}/nginx.tar.gz"
+curl -L "${source_zlib}${version_zlib}.tar.gz" -o "${bpath}/zlib.tar.gz"
+curl -L "${source_openssl}${version_openssl}.tar.gz" -o "${bpath}/openssl.tar.gz"
+curl -L "${source_nginx}${version_nginx}.tar.gz" -o "${bpath}/nginx.tar.gz"
 
 # Download the signature files
 curl -L "${source_pcre}${version_pcre}.tar.gz.sig" -o "${bpath}/pcre.tar.gz.sig"
-curl -L "${source_zlib}zlib-${version_zlib}.tar.gz.asc" -o "${bpath}/zlib.tar.gz.asc"
-curl -L "${source_openssl}openssl-${version_openssl}.tar.gz.asc" -o "${bpath}/openssl.tar.gz.asc"
-curl -L "${source_nginx}nginx-${version_nginx}.tar.gz.asc" -o "${bpath}/nginx.tar.gz.asc"
+curl -L "${source_zlib}${version_zlib}.tar.gz.asc" -o "${bpath}/zlib.tar.gz.asc"
+curl -L "${source_openssl}${version_openssl}.tar.gz.asc" -o "${bpath}/openssl.tar.gz.asc"
+curl -L "${source_nginx}${version_nginx}.tar.gz.asc" -o "${bpath}/nginx.tar.gz.asc"
 
 # Verify the integrity and authenticity of the source files through their OpenPGP signature
 cd "$bpath"
