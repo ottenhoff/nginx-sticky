@@ -50,11 +50,14 @@ rm -rf \
 mkdir "$bpath"
 
 # Ensure the required software to compile NGINX is installed
+apt-get -y remove nginx 
+
 apt-get -y install \
   binutils \
   build-essential \
   curl \
   dirmngr \
+  git \
   libssl-dev
 
 # Download the source files
@@ -90,6 +93,9 @@ done
 rm -rf \
   "$GNUPGHOME" \
   "$bpath"/*.tar.*
+
+# Download custom Nginx modules
+git clone https://github.com/levonet/nginx-sticky-module-ng.git
 
 # Rename the existing /etc/nginx directory so it's saved as a back-up
 if [ -d "/etc/nginx" ]; then
@@ -128,6 +134,7 @@ cd "$bpath/$version_nginx"
   --with-zlib="$bpath/$version_zlib" \
   --with-openssl-opt="no-weak-ssl-ciphers no-ssl3 no-shared $ecflag -DOPENSSL_NO_HEARTBEATS -fstack-protector-strong" \
   --with-openssl="$bpath/$version_openssl" \
+  --add-module="$bpath/nginx-sticky-module-ng" \
   --sbin-path=/usr/sbin/nginx \
   --modules-path=/usr/lib/nginx/modules \
   --conf-path=/etc/nginx/nginx.conf \
