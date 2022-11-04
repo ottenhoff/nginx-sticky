@@ -8,4 +8,4 @@ jobs:
         steps:
             - uses: actions/checkout@v1
             - name: Compile Nginx
-              run: bash ${GITHUB_WORKSPACE}/build.sh
+              run: sudo bash -ex ${GITHUB_WORKSPACE}/build.sh
