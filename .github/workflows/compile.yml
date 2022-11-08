@@ -17,6 +17,7 @@ jobs:
                 sudo cp /lib/systemd/system/nginx.service .debpkg/lib/systemd/system/nginx.service
 
             - uses: jiro4989/build-deb-action@v2
+              id: debbuild
               with:
                 package: nginx
                 package_root: .debpkg
@@ -27,5 +28,5 @@ jobs:
 
             - uses: actions/upload-artifact@v3
               with:
-                name: ${{ steps.build.outputs.file_name }}
-                path: ${{ steps.build.outputs.file_name }}
+                name: ${{ steps.debbuild.outputs.file_name }}
+                path: ${{ steps.debbuild.outputs.file_name }}
