@@ -18,6 +18,6 @@ jobs:
                 package: nginx
                 package_root: .debpkg
                 maintainer: Longsight
-                version: ${{ github.ref }} # refs/tags/v*.*.*
+                version: 1.0.0
                 arch: 'amd64'
                 desc: 'Nginx with sticky session support.'
