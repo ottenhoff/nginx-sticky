@@ -39,14 +39,6 @@ opgp_openssl7=E5E52560DD91C556DDBDA5D02064C53641C25E5D
 
 # Set where OpenSSL and NGINX will be built
 bpath=$(pwd)/build
-
-# Make a "today" variable for use in back-up filenames later
-today=$(date +"%Y-%m-%d")
-
-# Clean out any files from previous runs of this script
-rm -rf \
-  "$bpath" \
-  /etc/nginx-default
 mkdir "$bpath"
 
 # Ensure the required software to compile NGINX is installed
@@ -96,25 +88,7 @@ rm -rf \
 
 # Download custom Nginx modules
 git clone https://github.com/levonet/nginx-sticky-module-ng.git
-
-# Rename the existing /etc/nginx directory so it's saved as a back-up
-if [ -d "/etc/nginx" ]; then
-  mv /etc/nginx "/etc/nginx-${today}"
-fi
-
-# Create NGINX cache directories if they do not already exist
-if [ ! -d "/var/cache/nginx/" ]; then
-  mkdir -p \
-    /var/cache/nginx/client_temp \
-    /var/cache/nginx/proxy_temp \
-    /var/cache/nginx/fastcgi_temp \
-    /var/cache/nginx/uwsgi_temp \
-    /var/cache/nginx/scgi_temp
-fi
-
-# Add NGINX group and user if they do not already exist
-id -g nginx &>/dev/null || addgroup --system nginx
-id -u nginx &>/dev/null || adduser --disabled-password --system --home /var/cache/nginx --shell /sbin/nologin --group nginx
+git clone https://github.com/google/ngx_brotli.git
 
 # Test to see if our version of gcc supports __SIZEOF_INT128__
 if gcc -dM -E - </dev/null | grep -q __SIZEOF_INT128__
@@ -135,6 +109,7 @@ cd "$bpath/$version_nginx"
   --with-openssl-opt="no-weak-ssl-ciphers no-ssl3 no-shared $ecflag -DOPENSSL_NO_HEARTBEATS -fstack-protector-strong" \
   --with-openssl="$bpath/$version_openssl" \
   --add-module="$bpath/nginx-sticky-module-ng" \
+  --add-module="$bpath/ngx_brotli" \
   --sbin-path=/usr/sbin/nginx \
   --modules-path=/usr/lib/nginx/modules \
   --conf-path=/etc/nginx/nginx.conf \
@@ -177,14 +152,6 @@ make install
 make clean
 strip -s /usr/sbin/nginx*
 
-if [ -d "/etc/nginx-${today}" ]; then
-  # Rename the default /etc/nginx settings directory so it's accessible as a reference to the new NGINX defaults
-  mv /etc/nginx /etc/nginx-default
-
-  # Restore the previous version of /etc/nginx to /etc/nginx so the old settings are kept
-  mv "/etc/nginx-${today}" /etc/nginx
-fi
-
 # Create NGINX systemd service file if it does not already exist
 if [ ! -e "/lib/systemd/system/nginx.service" ]; then
   # Control will enter here if the NGINX service doesn't exist.
@@ -208,7 +175,3 @@ PrivateTmp=true
 WantedBy=multi-user.target
 EOF
 fi
-
-echo "All done.";
-echo "Start with sudo systemctl start nginx"
-echo "or with sudo nginx"
