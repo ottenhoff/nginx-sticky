@@ -89,6 +89,7 @@ rm -rf \
 # Download custom Nginx modules
 git clone https://github.com/levonet/nginx-sticky-module-ng.git
 git clone https://github.com/google/ngx_brotli.git
+git clone https://github.com/yaoweibin/nginx_upstream_check_module.git
 
 # Test to see if our version of gcc supports __SIZEOF_INT128__
 if gcc -dM -E - </dev/null | grep -q __SIZEOF_INT128__
@@ -100,6 +101,10 @@ fi
 
 # Build NGINX, with various modules included/excluded
 cd "$bpath/$version_nginx"
+
+# Necessary patches
+patch -p1 < "$bpath/nginx_upstream_check_module/check_1.20.1+.patch"
+
 ./configure \
   --prefix=/etc/nginx \
   --with-cc-opt="-O3 -fPIE -fstack-protector-strong -Wformat -Werror=format-security" \
@@ -110,6 +115,7 @@ cd "$bpath/$version_nginx"
   --with-openssl="$bpath/$version_openssl" \
   --add-module="$bpath/nginx-sticky-module-ng" \
   --add-module="$bpath/ngx_brotli" \
+  --add-module="$bpath/nginx_upstream_check_module" \
   --sbin-path=/usr/sbin/nginx \
   --modules-path=/usr/lib/nginx/modules \
   --conf-path=/etc/nginx/nginx.conf \

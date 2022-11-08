@@ -10,11 +10,13 @@ jobs:
             - name: Compile Nginx
               run: |
                 sudo bash -ex ${GITHUB_WORKSPACE}/build.sh
-                sudo mkdir -p .debpkg/usr/sbin .debpkg/etc/ .debpkg/var/cache/nginx .debpkg/var/log/nginx .debpkg/usr/lib/nginx/modules .debpkg/var/lib/nginx
+                sudo mkdir -p .debpkg/usr/sbin .debpkg/etc .debpkg/var/cache/nginx .debpkg/var/log/nginx .debpkg/usr/lib/nginx/modules .debpkg/var/lib/nginx
                 sudo cp /usr/sbin/nginx .debpkg/usr/sbin
-                sudo cp -r /etc/nginx .debpkg/etc/nginx
                 sudo mkdir -p .debpkg/lib/systemd/system/
                 sudo cp /lib/systemd/system/nginx.service .debpkg/lib/systemd/system/nginx.service
+                sudo mkdir -p .debpkg/var/www/html/maintenance .debpkg/var/www/html/sakai-library
+                sudo cp -r ${GITHUB_WORKSPACE}/conf .debpkg/etc/nginx
+                sudo cp /etc/nginx/mime.types .debpkg/etc/nginx/mime.types
 
             - uses: jiro4989/build-deb-action@v2
               id: debbuild
@@ -22,7 +24,7 @@ jobs:
                 package: nginx
                 package_root: .debpkg
                 maintainer: Longsight
-                version: 1.0.0
+                version: 3.0.0
                 arch: 'amd64'
                 desc: 'Nginx with sticky session support.'
 
