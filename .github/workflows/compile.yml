@@ -12,8 +12,9 @@ jobs:
                 sudo bash -ex ${GITHUB_WORKSPACE}/build.sh
                 sudo mkdir -p .debpkg/usr/sbin .debpkg/etc/ .debpkg/var/cache/nginx .debpkg/var/log/nginx .debpkg/usr/lib/nginx/modules .debpkg/var/lib/nginx
                 sudo cp /usr/sbin/nginx .debpkg/usr/sbin
-                sudo cp /lib/systemd/system/nginx.service .debpkg/lib/systemd/system/nginx.service
                 sudo cp -r /etc/nginx .debpkg/etc/nginx
+                sudo mkdir -p .debpkg/lib/systemd/system/
+                sudo cp /lib/systemd/system/nginx.service .debpkg/lib/systemd/system/nginx.service
 
             - uses: jiro4989/build-deb-action@v2
               with:
