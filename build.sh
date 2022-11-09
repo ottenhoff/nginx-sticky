@@ -90,6 +90,7 @@ rm -rf \
 git clone https://github.com/levonet/nginx-sticky-module-ng.git
 git clone https://github.com/google/ngx_brotli.git
 git clone https://github.com/yaoweibin/nginx_upstream_check_module.git
+git clone https://github.com/yaoweibin/nginx_tcp_proxy_module.git
 
 # Test to see if our version of gcc supports __SIZEOF_INT128__
 if gcc -dM -E - </dev/null | grep -q __SIZEOF_INT128__
@@ -104,6 +105,7 @@ cd "$bpath/$version_nginx"
 
 # Necessary patches
 patch -p1 < "$bpath/nginx_upstream_check_module/check_1.20.1+.patch"
+patch -p1 < "$bpath/nginx_tcp_proxy_module/tcp.patch"
 
 ./configure \
   --prefix=/etc/nginx \
@@ -116,6 +118,7 @@ patch -p1 < "$bpath/nginx_upstream_check_module/check_1.20.1+.patch"
   --add-module="$bpath/nginx-sticky-module-ng" \
   --add-module="$bpath/ngx_brotli" \
   --add-module="$bpath/nginx_upstream_check_module" \
+  --add-module="$bpath/nginx_tcp_proxy_module"" \
   --sbin-path=/usr/sbin/nginx \
   --modules-path=/usr/lib/nginx/modules \
   --conf-path=/etc/nginx/nginx.conf \
