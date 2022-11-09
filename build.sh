@@ -118,7 +118,7 @@ patch -p1 < "$bpath/nginx_tcp_proxy_module/tcp.patch"
   --add-module="$bpath/nginx-sticky-module-ng" \
   --add-module="$bpath/ngx_brotli" \
   --add-module="$bpath/nginx_upstream_check_module" \
-  --add-module="$bpath/nginx_tcp_proxy_module"" \
+  --add-module="$bpath/nginx_tcp_proxy_module" \
   --sbin-path=/usr/sbin/nginx \
   --modules-path=/usr/lib/nginx/modules \
   --conf-path=/etc/nginx/nginx.conf \
