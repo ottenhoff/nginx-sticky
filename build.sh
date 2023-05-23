@@ -22,7 +22,7 @@ source_nginx=https://nginx.org/download/
 version_pcre=pcre-8.45
 version_zlib=zlib-1.2.13
 version_openssl=openssl-3.0.8
-version_nginx=nginx-1.22.1
+version_nginx=nginx-1.24.0
 
 # Set OpenPGP keys used to sign downloads
 opgp_pcre=45F68D54BBE23FB3039B46E59766E084FB0F43D8
@@ -87,7 +87,7 @@ rm -rf \
   "$bpath"/*.tar.*
 
 # Download custom Nginx modules
-git clone https://github.com/levonet/nginx-sticky-module-ng.git
+git clone https://github.com/dvershinin/nginx-sticky-module-ng.git
 git clone https://github.com/google/ngx_brotli.git
 git clone https://github.com/yaoweibin/nginx_upstream_check_module.git
 
